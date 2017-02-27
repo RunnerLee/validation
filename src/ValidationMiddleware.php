@@ -9,7 +9,7 @@ namespace Runner\Validation;
 use FastD\Middleware\DelegateInterface;
 use FastD\Middleware\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
-use Runner\Validator\ValidationExceptions;
+use Runner\Validator\Exceptions\ValidationExceptions;
 use FastD\Http\Response;
 use FastD\Http\JsonResponse;
 
