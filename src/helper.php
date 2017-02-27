@@ -12,8 +12,12 @@ if (!function_exists('validator')) {
     function validator(ServerRequest $request, array $rules)
     {
         $data = [];
-        foreach ($rules as $filed => $rule) {
-            $data[$filed] = $request->getParam($filed);
+        foreach ($rules as $field => $rule) {
+            if (isset($request->queryParams[$field])) {
+                $data[$field] = $request->queryParams[$field];
+            } elseif (isset($request->bodyParams[$field])) {
+                $data[$field] = $request->bodyParams[$field];
+            }
         }
         $validator = new Validator($data, $rules);
         if (!$validator->validate()) {
