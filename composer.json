@@ -21,6 +21,9 @@
     "autoload": {
         "psr-4": {
             "Runner\\Validation\\": "src/"
-        }
+        },
+        "files": [
+            "src/helper.php"
+        ]
     }
 }
