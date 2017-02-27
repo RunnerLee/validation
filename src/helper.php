@@ -6,14 +6,14 @@
  */
 use FastD\Http\ServerRequest;
 use Runner\Validator\Validator;
-use Runner\Validator\ValidationExceptions;
+use Runner\Validator\Exceptions\ValidationExceptions;
 
 if (!function_exists('validator')) {
     function validator(ServerRequest $request, array $rules)
     {
         $data = [];
-        foreach ($rules as $rule) {
-            $data[$rule] = $request->getParam($rule);
+        foreach ($rules as $filed => $rule) {
+            $data[$filed] = $request->getParam($filed);
         }
         $validator = new Validator($data, $rules);
         if (!$validator->validate()) {
