@@ -13,6 +13,8 @@ if (!function_exists('validator')) {
     {
         $data = [];
         foreach ($rules as $field => $rule) {
+            $field = explode('.', $field);
+            $field = array_shift($field);
             if (isset($request->queryParams[$field])) {
                 $data[$field] = $request->queryParams[$field];
             } elseif (isset($request->bodyParams[$field])) {
