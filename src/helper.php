@@ -15,6 +15,9 @@ if (!function_exists('validator')) {
         foreach ($rules as $field => $rule) {
             $field = explode('.', $field);
             $field = array_shift($field);
+            if (array_key_exists($field, $data)) {
+                continue;
+            }
             if (isset($request->queryParams[$field])) {
                 $data[$field] = $request->queryParams[$field];
             } elseif (isset($request->bodyParams[$field])) {
