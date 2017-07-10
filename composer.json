@@ -4,13 +4,13 @@
     "description": "",
     "authors": [
         {
-            "name": "runnerlee",
+            "name": "RunnerLee",
             "email": "runnerleer@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.6",
-        "fastd/fastd": "~3.1.0@dev",
+        "fastd/fastd": "~3.1.0",
         "runner/validator": "~0.1"
     },
     "require-dev": {
