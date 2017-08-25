@@ -5,8 +5,8 @@
  * @time: 17-2-27 10:49
  */
 use FastD\Http\ServerRequest;
-use Runner\Validator\Validator;
 use Runner\Validator\Exceptions\ValidationException;
+use Runner\Validator\Validator;
 
 if (!function_exists('validator')) {
     function validator(ServerRequest $request, array $rules)
@@ -28,10 +28,12 @@ if (!function_exists('validator')) {
         if (!$validator->validate()) {
             $messages = '';
             foreach ($validator->messages() as $fieldMessages) {
-                $messages .= implode(';', $fieldMessages) . ';';
+                $messages .= implode(';', $fieldMessages).';';
             }
+
             throw new ValidationException($messages, 400);
         }
+
         return $validator;
     }
 }
