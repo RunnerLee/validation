@@ -30,7 +30,7 @@ if (!function_exists('validator')) {
             foreach ($validator->messages() as $fieldMessages) {
                 $messages .= implode(';', $fieldMessages) . ';';
             }
-            throw new ValidationExceptions($messages);
+            throw new ValidationExceptions($messages, 400);
         }
         return $validator;
     }
