@@ -31,7 +31,7 @@ if (!function_exists('validator')) {
                 $messages .= implode(';', $fieldMessages).';';
             }
 
-            throw new ValidationException($messages, 400);
+            throw new ValidationException($messages);
         }
 
         return $validator;

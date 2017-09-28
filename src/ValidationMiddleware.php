@@ -12,7 +12,7 @@ use FastD\Http\Response;
 use FastD\Middleware\DelegateInterface;
 use FastD\Middleware\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
-use Runner\Validator\Exceptions\ValidationExceptions;
+use Runner\Validator\Exceptions\ValidationException;
 
 class ValidationMiddleware extends Middleware
 {
@@ -26,9 +26,8 @@ class ValidationMiddleware extends Middleware
                 }
                 validator($request, $reflection->newInstance()->rules());
             }
-
             return $next($request);
-        } catch (ValidationExceptions $exception) {
+        } catch (ValidationException $exception) {
             return new JsonResponse([
                 'msg'  => $exception->getMessage(),
                 'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
