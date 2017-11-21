@@ -9,6 +9,7 @@ namespace Runner\Validation;
 
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
+use Runner\Validator\Validator;
 
 class ValidationServerProvider implements ServiceProviderInterface
 {
@@ -20,5 +21,22 @@ class ValidationServerProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         $container->get('dispatcher')->withAddMiddleware(new ValidationMiddleware());
+
+        Validator::addExtension('exists', function ($field, $value, array $parameters = []) {
+            // [{connection}.]{database},field[,conditionField1,conditionValue2]
+            $dsn = array_shift($parameters);
+            $mainKey = 0 === count($parameters) ? 'id' : array_shift($parameters);
+            false === strpos($dsn, '.') && ($dsn = 'default.' . $dsn);
+            list($connection, $table) = explode('.', $dsn);
+            $condition = [];
+            $parameters = array_chunk($parameters, 2);
+            foreach ($parameters as $item) {
+                if (2 !== count($item)) {
+                    break;
+                }
+                $condition[$item[0]] = $item[1];
+            }
+            return eloquent_db($connection)->table($table)->where($mainKey, $value)->where($condition)->exists();
+        });
     }
 }
