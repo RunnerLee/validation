@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.6",
-        "fastd/fastd": "~3.1.0",
+        "fastd/fastd": "3.2.x-dev",
         "runner/validator": "~0.1"
     },
     "require-dev": {
