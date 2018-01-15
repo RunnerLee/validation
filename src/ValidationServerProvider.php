@@ -26,7 +26,7 @@ class ValidationServerProvider implements ServiceProviderInterface
             // [{connection}.]{database},field[,conditionField1,conditionValue2]
             $dsn = array_shift($parameters);
             $mainKey = 0 === count($parameters) ? 'id' : array_shift($parameters);
-            false === strpos($dsn, '.') && ($dsn = 'default.' . $dsn);
+            false === strpos($dsn, '.') && ($dsn = 'default.'.$dsn);
             list($connection, $table) = explode('.', $dsn);
             $condition = [];
             $parameters = array_chunk($parameters, 2);
@@ -37,7 +37,7 @@ class ValidationServerProvider implements ServiceProviderInterface
                 $condition[$item[0]] = $item[1];
             }
 
-            $cacheKeyName = app()->getName() . "validate_exist.{$connection}.{$table}.{$mainKey}.{$value}.";
+            $cacheKeyName = app()->getName()."validate_exist.{$connection}.{$table}.{$mainKey}.{$value}.";
             $condition && $cacheKeyName .= md5(http_build_query($condition));
             $item = cache()->getItem($cacheKeyName);
 
