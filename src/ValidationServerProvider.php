@@ -37,7 +37,7 @@ class ValidationServerProvider implements ServiceProviderInterface
                 $condition[$item[0]] = $item[1];
             }
 
-            $cacheKeyName = app()->getName()."validate_exist.{$connection}.{$table}.{$mainKey}.{$value}.";
+            $cacheKeyName = app()->getName().".validate_exist.{$connection}.{$table}.{$mainKey}.{$value}.";
             $condition && $cacheKeyName .= md5(http_build_query($condition));
 
             $item = cache()->getItem($cacheKeyName);
