@@ -37,14 +37,17 @@ class ValidationServerProvider implements ServiceProviderInterface
                 $condition[$item[0]] = $item[1];
             }
 
-            $cacheKeyName = app()->getName().".validate_exist.{$connection}.{$table}.{$mainKey}.{$value}.";
-            $condition && $cacheKeyName .= md5(http_build_query($condition));
+            $condition[$mainKey] = $value;
+
+            ksort($condition);
+
+            $cacheKeyName = app()->getName().".validate_exist.{$connection}.{$table}." . md5(http_build_query($condition));
 
             $item = cache()->getItem($cacheKeyName);
 
             if (!$item->isHit()) {
                 $item->set(
-                    eloquent_db($connection)->table($table)->where($mainKey, $value)->where($condition)->exists()
+                    eloquent_db($connection)->table($table)->where($condition)->exists()
                 );
                 $item->expiresAfter(300);
                 cache()->save($item);
