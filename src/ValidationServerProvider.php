@@ -20,8 +20,24 @@ class ValidationServerProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
+
+        /**
+         * register config
+         */
+        if (file_exists(app()->getPath() . '/config/validation.php')) {
+            config()->merge([
+                'validation' => load(app()->getPath() . '/config/validation.php'),
+            ]);
+        }
+
+        /**
+         * register middleware
+         */
         $container->get('dispatcher')->before(new ValidationMiddleware());
 
+        /**
+         * register extension
+         */
         Validator::addExtension('exists', function ($field, $value, array $parameters = []) {
             // [{connection}.]{database},field[,conditionField1,conditionValue2]
             $dsn = array_shift($parameters);

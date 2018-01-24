@@ -9,5 +9,8 @@ namespace Runner\Validation;
 
 interface RequestValidatorInterface
 {
-    public function rules();
+    /**
+     * @return array
+     */
+    public function rules() : array;
 }
