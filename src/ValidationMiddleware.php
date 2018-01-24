@@ -27,7 +27,7 @@ class ValidationMiddleware extends Middleware
                 validator($request, $reflection->newInstance()->rules());
             }
 
-            return $next($request);
+            return $next->process($request);
         } catch (ValidationException $exception) {
             return new JsonResponse([
                 'msg'  => $exception->getMessage(),
