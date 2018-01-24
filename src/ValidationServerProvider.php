@@ -20,7 +20,7 @@ class ValidationServerProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container->get('dispatcher')->withAddMiddleware(new ValidationMiddleware());
+        $container->get('dispatcher')->before(new ValidationMiddleware());
 
         Validator::addExtension('exists', function ($field, $value, array $parameters = []) {
             // [{connection}.]{database},field[,conditionField1,conditionValue2]
