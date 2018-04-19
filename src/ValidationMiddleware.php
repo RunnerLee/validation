@@ -17,8 +17,10 @@ class ValidationMiddleware extends Middleware
 {
     /**
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $next
+     * @param DelegateInterface      $next
+     *
      * @return JsonResponse|\Psr\Http\Message\ResponseInterface
+     *
      * @throws \Exception
      */
     public function handle(ServerRequestInterface $request, DelegateInterface $next)
