@@ -20,16 +20,6 @@ class ValidationServerProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-
-        /**
-         * register config
-         */
-        if (file_exists(app()->getPath() . '/config/validation.php')) {
-            config()->merge([
-                'validation' => load(app()->getPath() . '/config/validation.php'),
-            ]);
-        }
-
         /**
          * register middleware
          */

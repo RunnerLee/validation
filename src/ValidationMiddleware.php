@@ -8,7 +8,6 @@
 namespace Runner\Validation;
 
 use FastD\Http\JsonResponse;
-use FastD\Http\Response;
 use FastD\Middleware\DelegateInterface;
 use FastD\Middleware\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,21 +24,12 @@ class ValidationMiddleware extends Middleware
     public function handle(ServerRequestInterface $request, DelegateInterface $next)
     {
         try {
-            $configKey = 'validation.' . route()->getActiveRoute()->getMethod() . '.' . route()->getActiveRoute()->getPath();
-            if ($validator = config()->get($configKey, false)) {
-                $reflection = new \ReflectionClass($validator);
-                if ($reflection->isSubclassOf(RequestValidatorInterface::class)) {
-                    throw new \Exception(sprintf('%s is not instance of %s', $reflection->getName(), RequestValidatorInterface::class));
-                }
-                validator($request, $reflection->newInstance()->rules());
-            }
-
             return $next->process($request);
         } catch (ValidationException $exception) {
-            return new JsonResponse([
-                'msg'  => $exception->getMessage(),
-                'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return call_user_func(
+                config()->get('exception.response'),
+                $exception
+            );
         } catch (\Exception $e) {
             throw $e;
         }
