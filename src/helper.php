@@ -9,7 +9,7 @@ use Runner\Validator\Exceptions\ValidationException;
 use Runner\Validator\Validator;
 
 if (!function_exists('validator')) {
-    function validator(ServerRequest $request, array $rules)
+    function validator(ServerRequest $request, array $rules, array $messageTemplates = [])
     {
         $data = [];
         foreach ($rules as $field => $rule) {
@@ -24,7 +24,7 @@ if (!function_exists('validator')) {
                 $data[$field] = $request->bodyParams[$field];
             }
         }
-        $validator = new Validator($data, $rules);
+        $validator = new Validator($data, $rules, $messageTemplates);
         if (!$validator->validate()) {
             $messages = '';
             foreach ($validator->messages() as $fieldMessages) {
